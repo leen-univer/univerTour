@@ -1,0 +1,118 @@
+.first-content {
+	display: flex;
+	justify-content: space-between;
+
+	padding-top: 2rem;
+}
+.resp-btn-container {
+	display: none !important;
+}
+.resp-btn-outlined {
+	display: none !important;
+}
+.left-first-content {
+	font-size: 1.5rem;
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+}
+.heading {
+	font-size: 2.7rem;
+	font-weight: 600;
+	max-width: 38rem;
+	/* color: #db6b0dfa; */
+}
+
+.left-first-content .btn-container {
+	font-size: 16px;
+	color: white;
+	font-weight: 600;
+	height: 44px;
+	width: 197px;
+	border: none;
+	cursor: pointer;
+	margin-top: 14px;
+	padding: 6px 20px;
+	border-radius: 36px;
+	box-shadow: 0px 5px 6px rgb(197, 217, 255);
+	/* background-color: #fd7c0acc; */
+	cursor: pointer;
+}
+.left-first-content .btn-container:hover {
+	font-size: 16px;
+	color: rgb(37, 82, 167);
+	font-weight: 600;
+	height: 44px;
+	width: 197px;
+	border: none;
+	margin-top: 14px;
+	padding: 6px 20px;
+	border-radius: 36px;
+	border: 1px solid rgb(37, 82, 167);
+	box-shadow: 0px 4px 3px rgb(98, 141, 221);
+	background-color: white;
+	cursor: pointer;
+}
+
+.right-first-content img {
+	width: 100%;
+}
+.new_animated_img {
+	animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+	0% {
+		filter: drop-shadow(0 5px 15px rgba(250, 250, 250, 0.6));
+		transform: translatey(0px);
+	}
+	50% {
+		filter: drop-shadow(0 25px 15px rgba(250, 250, 250, 0.2));
+		transform: translatey(-20px);
+	}
+	100% {
+		filter: drop-shadow(0 5px 15px rgba(250, 250, 250, 0.6));
+		transform: translatey(0px);
+	}
+}
+
+@media screen and (max-width: 796px) {
+	.first-content {
+		flex-direction: column-reverse;
+	}
+	.left-first-content {
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.resp-btn-container {
+		display: flex !important;
+		justify-content: center;
+		align-items: center;
+		background-color: #fd7c0acc;
+		font-size: 1rem;
+		color: white;
+		border-radius: 36px;
+		box-shadow: 0px 8px 7px #e9ac0633;
+		margin: 1rem 0;
+		padding: 0.6rem 2rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition-property: background-color;
+		transition-duration: 0.5s;
+	}
+
+	.resp-btn-outlined {
+		display: flex !important;
+		justify-content: center;
+		align-items: center;
+		font-size: 1rem;
+		color: #fd7e14;
+		font-weight: 600;
+		padding: 0.6rem 2rem;
+		border-radius: 36px;
+		background: white;
+		border: 1px solid rgb(233, 200, 53);
+		cursor: pointer;
+	}
+}

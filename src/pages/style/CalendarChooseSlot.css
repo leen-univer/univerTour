@@ -1,0 +1,33 @@
+.react-calendar {
+    border: none; /* Remove border */
+    width: 350px; /* Increase the width of the calendar */
+    max-width: 100%; /* Ensure calendar doesn't exceed container width */
+}
+.react-calendar__tile {
+    padding: 1rem; /* Adjust padding for all dates */
+}
+
+.react-calendar__tile--active {
+    /* background-color: ; Current month dates */
+    color:#000;
+    font-weight: 700 /* Text color for current month dates */
+    /* border-radius: 50%; Rounded corners */
+}
+
+.react-calendar__tile--disabled {
+    background-color: #ccc; /* Disabled dates */
+    color: #000; /* Text color for disabled dates */
+}
+
+.react-calendar__tile--weekend {
+    color: rgb(220 38 38);; /* Text color for Saturdays and Sundays */
+}
+.react-calendar__navigation__arrow {
+    font-size: 1.5em; 
+    font-weight: 500
+    /* Adjust the font size of navigation arrows */
+}
+/* .react-calendar__month-view__weekdays__weekday{
+    color: rgb(220 38 38);
+    border: none;
+} */

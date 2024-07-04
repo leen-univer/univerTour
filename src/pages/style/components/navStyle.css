@@ -1,0 +1,127 @@
+.navbar-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.7rem;
+}
+.left-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin-left: 1rem;
+  /* color: #fd7e14; */
+}
+.image-logo {
+  width: 120px;
+  /* height: 40px; */
+}
+.left-nav div {
+  margin-left: 1rem;
+}
+.right-nav {
+  display: flex;
+  align-items: center;
+}
+.right-nav div {
+  margin-left: 1rem;
+}
+.nav-link {
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0 1rem;
+  font-weight: 600;
+  /* color: #fd7e14; */
+  cursor: pointer;
+}
+.btn-outlined {
+  font-size: 16px;
+  /* color: #fd7e14; */
+  font-weight: 600;
+  padding: 6px 20px;
+  border-radius: 36px;
+  background: white;
+  border: 1px solid rgb(37, 82, 167);
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+.btn-outlined:hover {
+  font-size: 16px;
+  color: white !important;
+  font-weight: 600;
+  padding: 6px 20px;
+  border-radius: 36px;
+  background-color: rgb(37, 82, 167);
+  /* border: 1px solid rgb(37, 82, 167); */
+  cursor: pointer;
+}
+.btn-container {
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 20px;
+  border-radius: 36px;
+  /* background-color: #eb7c1ccc; */
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+.btn-container:hover {
+  font-size: 16px;
+  color: rgb(37, 82, 167) !important;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 20px;
+  border-radius: 36px;
+  border: 1px solid rgb(37, 82, 167);
+  background-color: white !important;
+  cursor: pointer;
+}
+.burger {
+  display: none !important;
+  /* color: #fd7e14 !important; */
+  top: 1.9rem;
+  position: absolute;
+  cursor: pointer;
+  right: 5%;
+}
+
+/* common css color and bg */
+.change_new_clr {
+  color: rgb(37, 82, 167) !important;
+}
+.change_new_bg_clr {
+  background-color: rgb(37, 82, 167) !important;
+}
+.change_new_clr_text {
+  color: rgb(103 107 243) !important;
+}
+
+@media screen and (max-width: 796px) {
+  .right-nav {
+    flex-direction: column;
+  }
+  .left-nav {
+    flex-direction: column;
+  }
+  .display {
+    display: none !important;
+  }
+  .burger {
+    display: inline-block !important;
+  }
+}
+@media screen and (max-width: 480px) {
+  .title {
+    font-size: 1rem;
+  }
+}

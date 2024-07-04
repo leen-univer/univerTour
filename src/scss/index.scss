@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+$page-background: #e3f3fd;
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", sans-serif;
+  box-sizing: border-box;
+}
+.circularProgress {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.place-content-end {
+  place-content: end;
+}
+.place-items-center {
+  place-items: center;
+}
+.place-content-center {
+  place-content: center;
+}
+.d-flex {
+  display: flex !important;
+}
+.h-75vh {
+  height: 75vh;
+}
+.mt-1vh {
+  margin-top: 1vh !important;
+}
+.auth_page {
+  background-color: #fff;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.page-bg {
+  background-color: $page-background;
+}
+.mh-100vh {
+  min-height: 100vh;
+}
+.py-1 {
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+.py-2 {
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+.gradient {
+  // background: linear-gradient(90deg, #fb7d26 12%, #fb3829f5 65%) !important;
+  background: linear-gradient(
+    to bottom right,
+    rgb(37, 82, 167),
+    blueviolet
+  ) !important;
+}
+.gradient:disabled,
+.gradient[disabled] {
+  background: #cccccc !important;
+  color: #666666 !important;
+}
+.selectedItem {
+  border-radius: 0px 40px 40px 0px !important;
+  // background: linear-gradient(90deg, #fb7d26 12%, #fb3829f5 65%) !important;
+  background: linear-gradient(
+    to bottom right,
+    rgb(37, 82, 167),
+    blueviolet
+  ) !important;
+  font-size: medium !important;
+  font-weight: bolder !important;
+  color: #fff !important;
+
+  // box-shadow: $secondary-color 0px 3px 8px 0px !important;
+}
+.selectedItem .listItemText span {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  background: transparent !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.listItemText span {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  background: linear-gradient(
+    90deg,
+    rgb(12, 1, 10) 10%,
+    rgb(19, 15, 18) 65%
+  ) !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+.iconColor {
+  // color: rgb(37, 82, 167);
+  color: rgb(37, 82, 167) !important;
+}
+.selectedItem .itemIcon svg {
+  font-size: 26px !important;
+  color: #fff !important;
+  background: transparent !important;
+}
+.d-card {
+  background: #fff !important;
+}

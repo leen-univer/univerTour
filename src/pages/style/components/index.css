@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./navStyle.css";
+@import "./showmenu.css";
+@import "./firstStyle.css";
+@import "./mycard.css";
+@import "./section.css";
+@import "./drawer.css";
+@import "./contact.css";
+@import "./footer.css";
+/* @import "./calendar.css"; */

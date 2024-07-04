@@ -1,0 +1,79 @@
+.contactDiv {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 1.5rem;
+}
+.pointingRightImage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.pointingRightImage img {
+  width: 100%;
+  height: 100%;
+}
+.formDiv {
+  width: 100%;
+  /* color: #eb7c1ccc; */
+  background: rgb(250, 249, 248);
+  padding: 0.5rem 2rem;
+}
+.login-title {
+  margin: 1rem 0;
+  font-weight: 600;
+}
+.form {
+  display: flex;
+  justify-content: flex-start !important;
+  width: auto;
+}
+.nameDiv {
+  display: flex !important;
+  font-weight: 600 !important;
+  align-items: flex-start !important;
+  flex-direction: column !important;
+  /* color: #eb7c1ccc; */
+  width: 100%;
+}
+
+.btn-submit {
+  width: 100%;
+  margin-top: 1rem !important;
+  border: none !important;
+  border-radius: 0.6rem !important;
+}
+
+.outLine {
+  outline: none !important;
+  width: 100%;
+
+  border: none !important;
+  border-radius: 0.6rem !important;
+}
+
+.border-10 {
+  border-radius: 10px !important;
+  outline: none !important;
+  border: none !important;
+  background-color: white !important;
+}
+.bg-white {
+  background-color: white !important;
+}
+.form-textfield {
+  padding: 0.5rem 1rem !important;
+}
+.form-name {
+  padding: 0.5rem 0 !important;
+}
+@media screen and (max-width: 860px) {
+  .contactDiv {
+    flex-direction: column;
+  }
+  .pointingRightImage {
+    display: none;
+  }
+  .login-title {
+    text-align: center;
+  }
+}
