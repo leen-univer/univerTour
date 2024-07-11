@@ -49,10 +49,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "scripts": {
-  "prebuild": "npx update-browserslist-db@latest",
-  "build": "react-scripts build"
-}
-
+      "prebuild": "npx update-browserslist-db@latest",
+      "build": "react-scripts build"
+    }
   },
   "eslintConfig": {
     "extends": [
