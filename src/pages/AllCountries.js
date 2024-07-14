@@ -18,6 +18,11 @@ const AllCountries = () => {
   const [studentsCountByCountry, setStudentsCountByCountry] = useState({});
   const [studentsCountByCity, setStudentsCountByCity] = useState({});
   const { snackBarOpen } = useAppContext();
+  const [countryKey, setCountryKey] = useState({});
+
+  useEffect(() => {
+    fetchStudentsData();
+  }, []);
 
   const fetchStudentsData = async () => {
     try {
@@ -25,7 +30,9 @@ const AllCountries = () => {
       const fairsData = fairsSnapshot.val();
       if (fairsData) {
         const countryStudentCount = {};
+        const countryKey = {};
         const cityStudentCount = {};
+
         for (const fairId in fairsData) {
           const studentsSnapshot = await database.ref(`/NewFairs/${fairId}/forms/studentMajorForm/students`).once('value');
           const students = studentsSnapshot.val();
@@ -35,7 +42,9 @@ const AllCountries = () => {
               if (student.country) {
                 try {
                   const country = atob(student.country);
-                  const city = atob(student.city); // Assuming 'city' field exists and is encoded
+                  const city = atob(student.city);
+                  countryKey[city] = fairId;
+
                   if (country) {
                     if (!countryStudentCount[country]) {
                       countryStudentCount[country] = 0;
@@ -58,6 +67,7 @@ const AllCountries = () => {
           }
         }
         setStudentsCountByCountry(countryStudentCount);
+        setCountryKey(countryKey);
         setStudentsCountByCity(cityStudentCount);
       }
     } catch (error) {
@@ -65,16 +75,13 @@ const AllCountries = () => {
     }
   };
 
-  useEffect(() => {
-    fetchStudentsData();
-  }, []);
-
   return (
     <section className="py-2">
       <MaterialTable
         data={countries?.map((item, i) => ({
           ...item,
           sl: i + 1,
+          keyCity: countryKey[item.cityName],
           studentCount: studentsCountByCountry[item.countryName] || 0,
         })) || []}
         title="Add Countries"
@@ -102,12 +109,7 @@ const AllCountries = () => {
             field: 'countryName',
             searchable: true,
             export: true,
-            validate: (value) => {
-              if (!value?.countryName?.length) {
-                return 'Required';
-              }
-              return true;
-            },
+            validate: (value) => (value?.length ? true : 'Required'),
           },
           {
             title: 'Student Count',
@@ -123,7 +125,6 @@ const AllCountries = () => {
           },
           {
             title: 'Assign University',
-            hidden: true,
             render: (rowData) => (
               <IconButton onClick={() => setOpenAssignUniversity(rowData)}>
                 <School />
@@ -134,7 +135,7 @@ const AllCountries = () => {
         editable={{
           onRowAdd: async (newData) => {
             try {
-              await database.ref(`Countries`).push({
+              await database.ref('Countries').push({
                 ...newData,
                 timestamp: new Date().toString(),
               });
@@ -190,7 +191,7 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
   ];
   const [openAssignUniversity, setOpenAssignUniversity] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
-  const [openCityDetails, setOpenCityDetails] = useState(false); // State for CityDetailsDialog
+  const [openCityDetails, setOpenCityDetails] = useState(false);
   const { snackBarOpen } = useAppContext();
 
   const copyToClipboard = (link) => {
@@ -220,6 +221,8 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
       <CityDetailsDialog
         open={openCityDetails}
         setOpen={setOpenCityDetails}
+        fairId={rowData?.keyCity}
+        cityData={openInfo}
       />
       <MaterialTable
         data={getArrFromObj(rowData?.cities)
@@ -241,12 +244,7 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
             title: 'City Name',
             field: 'cityName',
             searchable: true,
-            validate: (value) => {
-              if (!value?.cityName?.length) {
-                return 'Required';
-              }
-              return true;
-            },
+            validate: (value) => (value?.length ? true : 'Required'),
           },
           {
             title: 'Student Count',
@@ -255,8 +253,8 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
           },
           {
             title: 'Created At',
-            editable: 'never',
             field: 'timestamp',
+            editable: 'never',
             filtering: false,
             render: ({ timestamp }) => moment(new Date(timestamp)).format('lll'),
           },
@@ -345,7 +343,6 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
             }
           },
         }}
-
         isLoading={loading}
       />
     </div>

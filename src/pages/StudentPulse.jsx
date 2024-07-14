@@ -133,7 +133,7 @@ const StudentFair = () => {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', margin: 'auto', padding: '40px' }}>
       <h3 style={{ color: 'black', fontSize: '40px' }}>Your Data</h3>
-      <p style={{ padding: '10px', color: 'gray' }}>Results for student pulse form hhh</p>
+      <p style={{ padding: '10px', color: 'gray' }}>Results for student pulse form</p>
       <div style={{ textAlign: 'right', marginBottom: '20px' }}>
         <button onClick={handleShowTable} style={{ padding: '10px 20px', fontSize: '20px', backgroundColor: 'rgb(72 68 187)', color: 'white', border: 'none', cursor: 'pointer' }}>
           Show Details
