@@ -287,7 +287,6 @@ const Leads = () => {
                 </div>
               ),
           },
-          // أضف أعمدة أخرى حسب حاجتك
         ]}
         options={{
           detailPanelColumnAlignment: "right",

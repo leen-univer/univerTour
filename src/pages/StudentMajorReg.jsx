@@ -70,7 +70,7 @@ const StudentMajorReg = () => {
       });
 
       submitProps.resetForm();
-      fetchStudentsData(); // جلب البيانات بعد التخزين مباشرة
+      fetchStudentsData(); 
 
     } catch (error) {
       console.error(error);
@@ -83,7 +83,7 @@ const StudentMajorReg = () => {
     try {
       const snapshot = await database.ref(`/NewFairs/${fairId}/forms/studentMajorForm/students`).once("value");
       const data = snapshot.val();
-      console.log("Fetched Data:", data); // طباعة البيانات المسترجعة للتحقق
+      console.log("Fetched Data:", data); 
       if (data) {
         const studentsList = Object.values(data).map(student => ({
           ...student,
@@ -98,7 +98,7 @@ const StudentMajorReg = () => {
   };
 
   useEffect(() => {
-    if (fairId) { // تأكد من وجود fairId قبل جلب البيانات
+    if (fairId) { 
       fetchStudentsData();
     }
   }, [fairId]);
