@@ -3,6 +3,11 @@ import MaterialTable from "@material-table/core";
 // import ExportCsv from "@material-table/exporters/csv";
 import { ExportCsv } from "@material-table/exporters";
 import { useParams } from "react-router-dom";
+import ViewStudentPulsDialog from "../components/dialog/ViewStudentPulsDialog";
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+import CityDetailsDialog from 'components/dialog/CityDetailsDialog'; 
+import {  LocationCity} from '@mui/icons-material';
+
 
 import {
   Add,
@@ -58,10 +63,14 @@ const Leads = () => {
   const [openInfo, setOpenInfo] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [openStudent, setOpenStudent] = useState(false);
+  const [openStudentS, setOpenStudents] = useState(false);
   const [countries] = useFetch(`Countries/`);
   const [currentData, setCurrentData] = useState("");
   const [counsellorDetail, setCounsellorDetails] = useState(false);
   const [allData, setAllData] = useState();
+  const [openCityDetails, setOpenCityDetails] = useState(false);
+
+
   const [addReview, setAddReview] = useState(false);
   const [isSelect, setIsSelect] = useState()
 
@@ -420,9 +429,22 @@ const Leads = () => {
         addReview={addReview}
       />
       <ViewRegisterStudentDialog
-        rowData={openStudent}
-        handleClose={() => setOpenStudent(false)}
+        rowData={openStudentS}
+        handleClose={() => setOpenStudents(false)}
       />
+     <ViewStudentPulsDialog
+          rowData={openStudent}
+          handleClose={() => setOpenStudent(false)}
+      />
+ 
+ <CityDetailsDialog
+        open={openCityDetails}
+        setOpen={setOpenCityDetails}
+        // fairId={rowData?.keyCity}
+        cityData={openInfo}
+      />
+
+
       <div className="!text-end flex gap-2 justify-end ">
         <Select
           defaultValue=""
@@ -497,6 +519,7 @@ const Leads = () => {
                     </span>
                   </div>
                 </div>
+                
                 {/* Key Information */}
                 <div className="!text-red-600">
                   Key information {console.log("cityInfo", _?.cityInfo)}
@@ -1146,17 +1169,26 @@ const Leads = () => {
                               </IconButton>
                             </Tooltip>
                           </div>
-                          {getArrFromObj(rowData?.students)?.length ? (
+                        {rowData?.students?.length ? (
                             <div className="!h-24">
-                              <Tooltip title="View Registered Students">
+                              <Tooltip title="View Registered Student">
                                 <IconButton
-                                  onClick={() => setOpenStudent(rowData)}
+                                  onClick={() => setOpenStudents(rowData)}
                                 >
                                   <Person />
                                 </IconButton>
                               </Tooltip>
                             </div>
                           ) : null}
+                             {rowData?.students?.length ? (
+                       <div className="">
+                      <Tooltip title="View Students Pulse">
+                        <IconButton onClick={() => setOpenStudent(rowData)}>
+                          <FactCheckIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  ) : null}
                         </div>
                       ),
                   },
@@ -1678,7 +1710,28 @@ const Leads = () => {
                         </span>
                       </div>
                     </div>
-                    {/* Key Information */}
+
+                    
+                    <div className="text-red-600">
+                      Student Pulse Details
+                      <Tooltip
+                        title={
+                          _?.cityInfo?.length
+                            ? `${_?.cityName} Student Pulse`
+                            : "No Student Pulse"
+                        }
+                      >
+                        <IconButton className="!text-red-600" 
+                          onClick={() => setOpenCityDetails(_)}
+                          disabled={!_?.cityInfo?.length}
+                        >
+                          <LocationCity />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+
+
+
                     <div className="!text-red-600">
                       Key information {console.log("cityInfo", _?.cityInfo)}
                       <Tooltip
@@ -2329,15 +2382,28 @@ const Leads = () => {
                               </div>
                               {getArrFromObj(rowData?.students)?.length ? (
                                 <div className="!h-24">
-                                  <Tooltip title="View Registered Students">
+                                  <Tooltip title="View Registered Student">
                                     <IconButton
-                                      onClick={() => setOpenStudent(rowData)}
+                                      onClick={() => setOpenStudents (rowData)}
                                     >
                                       <Person />
                                     </IconButton>
                                   </Tooltip>
                                 </div>
                               ) : null}
+                              
+                              {getArrFromObj(rowData?.students)?.length ? (
+                                <div className="!h-24">
+                                  <Tooltip title="View Students Pulse">
+                                    <IconButton
+                                      onClick={() => setOpenStudent (rowData)}
+                                    >
+                                      <FactCheckIcon />
+                                    </IconButton>
+                                  </Tooltip>
+                                </div>
+                              ) : null}
+
                             </div>
                           ),
                       },

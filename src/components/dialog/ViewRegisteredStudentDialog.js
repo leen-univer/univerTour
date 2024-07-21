@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 
 const ViewRegisterStudentDialog = ({ rowData, handleClose }) => {
+  console.log("Ffffffffffffffolfkofof",rowData);
   return (
     <Dialog
       onClose={handleClose}
@@ -58,49 +59,154 @@ const ViewRegisterStudentDialog = ({ rowData, handleClose }) => {
                       searchable: true,
                       field: "id",
                       filtering: false,
+                      // render: ({ id }) =>
+                      //   Boolean(
+                      //     getArrFromObj(rowData?.AcceptedUniversity)?.find(
+                      //       (item) => item?.uid === auth.currentUser.uid
+                      //     )
+                      //   ) ? (
+                      //     id
+                      //   ) : (
+                      //     <Skeleton
+                      //       animation="wave"
+                      //       height={"12px"}
+                      //       width={"80%"}
+                      //     />
+                      //   ),
                     },
                     {
                       title: "Name",
                       field: "name",
                       searchable: true,
-                
+                      // render: ({ name }) =>
+                      //   Boolean(
+                      //     getArrFromObj(rowData?.AcceptedUniversity)?.find(
+                      //       (item) => item?.uid === auth.currentUser.uid
+                      //     )
+                      //   ) ? (
+                      //     name
+                      //   ) : (
+                      //     <Skeleton
+                      //       animation="wave"
+                      //       height={"12px"}
+                      //       width={"80%"}
+                      //     />
+                      //   ),
                     },
                     {
                       title: "Email",
                       field: "email",
                       export: true,
                       searchable: true,
-                  
+                      // render: ({ email }) =>
+                      //   Boolean(
+                      //     getArrFromObj(rowData?.AcceptedUniversity)?.find(
+                      //       (item) => item?.uid === auth.currentUser.uid
+                      //     )
+                      //   ) ? (
+                      //     email
+                      //   ) : (
+                      //     <Skeleton
+                      //       animation="wave"
+                      //       height={"12px"}
+                      //       width={"80%"}
+                      //     />
+                      //   ),
                     },
                     {
                       title: "Phone",
                       field: "phoneNumber",
                       searchable: true,
-                    
+                      // render: ({ phoneNumber }) =>
+                      //   Boolean(
+                      //     getArrFromObj(rowData?.AcceptedUniversity)?.find(
+                      //       (item) => item?.uid === auth.currentUser.uid
+                      //     )
+                      //   ) ? (
+                      //     phoneNumber
+                      //   ) : (
+                      //     <Skeleton
+                      //       animation="wave"
+                      //       height={"12px"}
+                      //       width={"80%"}
+                      //     />
+                      //   ),
                     },
                     {
                       title: "Age",
                       field: "age",
                       export: true,
-                  
+                      // render: ({ age }) =>
+                      //   Boolean(
+                      //     getArrFromObj(rowData?.AcceptedUniversity)?.find(
+                      //       (item) => item?.uid === auth.currentUser.uid
+                      //     )
+                      //   ) ? (
+                      //     age
+                      //   ) : (
+                      //     <Skeleton
+                      //       animation="wave"
+                      //       height={"12px"}
+                      //       width={"80%"}
+                      //     />
+                      //   ),
                     },
                     {
                       title: "Gender",
                       field: "gender",
                       export: true,
-              
+                      // render: ({ gender }) =>
+                      //   Boolean(
+                      //     getArrFromObj(rowData?.AcceptedUniversity)?.find(
+                      //       (item) => item?.uid === auth.currentUser.uid
+                      //     )
+                      //   ) ? (
+                      //     gender
+                      //   ) : (
+                      //     <Skeleton
+                      //       animation="wave"
+                      //       height={"12px"}
+                      //       width={"80%"}
+                      //     />
+                      //   ),
                     },
                     {
                       title: "Nationality",
                       field: "nationality",
                       export: true,
-                
+                      // render: ({ nationality }) =>
+                      //   Boolean(
+                      //     getArrFromObj(rowData?.AcceptedUniversity)?.find(
+                      //       (item) => item?.uid === auth.currentUser.uid
+                      //     )
+                      //   ) ? (
+                      //     nationality
+                      //   ) : (
+                      //     <Skeleton
+                      //       animation="wave"
+                      //       height={"12px"}
+                      //       width={"80%"}
+                      //     />
+                      //   ),
                     },
                     {
                       title: "Area Of Interest",
                       field: "areaOfInterest",
                       export: true,
-            
+                      // render: ({ areaOfInterest }) =>
+                      //   Boolean(
+                      //     getArrFromObj(rowData?.AcceptedUniversity)?.find(
+                      //       (item) => item?.uid === auth.currentUser.uid
+                      //     )
+                      //   ) ? (
+                      //     areaOfInterest
+                      //   ) : (
+                      //     <Skeleton
+                      //       animation="wave"
+                      //       height={"12px"}
+                      //       width={"80%"}
+                      //     />
+                      //   ),
                     },
                     {
                       title: "Created At",
@@ -111,7 +217,13 @@ const ViewRegisterStudentDialog = ({ rowData, handleClose }) => {
                         moment(timestamp).format("Do MMM YYYY hh:mm A"),
                     },
 
-            
+                    // {
+                    //   title: "Country",
+                    //   field: "country",
+                    //   searchable: true,
+                    //   // hidden: true,
+                    //   export: true,
+                    // },
                   ]}
                   options={{
                     detailPanelColumnAlignment: "right",
@@ -123,7 +235,10 @@ const ViewRegisterStudentDialog = ({ rowData, handleClose }) => {
                         label: "Export Users Data In CSV",
                         exportFunc: (cols, data) => ExportCsv(cols, data),
                       },
-                  
+                      // {
+                      //   label: "Export Users Data In PDF",
+                      //   exportFunc: (cols, data) => ExportPdf(cols, data),
+                      // },
                     ],
                     // selection: true,
                     actionsColumnIndex: -1,

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { getArrFromObj } from "@ashirbad/js-core";
 import { Check, Person } from "@mui/icons-material";
 import { Button, CircularProgress, MenuItem, TextField } from "@mui/material";
@@ -6,10 +8,12 @@ import { useAppContext } from "contexts";
 import { useFormik } from "formik";
 import { useFetch } from "hooks";
 import moment from "moment";
-import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { number } from "yup";
 import { PhotoUpload } from "./core";
+import { useState } from 'react'; 
+
+
 
 const url_regex =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
@@ -20,6 +24,25 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
   const [countries] = useFetch(`/Countries`, {
     needArray: true,
   });
+
+  useEffect(() => {
+    const fetchEventNames = async () => {
+      const usersRef = database.ref('/Users');
+      usersRef.once('value', (snapshot) => {
+        const users = snapshot.val();
+        if (users) {
+          const eventNamesData = Object.values(users).map(user => ({
+            displayName: user.displayName,
+            role: user.role,
+          }));
+          setEventNames(eventNamesData);
+        }
+      });
+    };
+    fetchEventNames();
+  }, []);
+
+  const [eventNames, setEventNames] = useState([]);
 
   const [cities, setCities] = useState([]);
   const [image, setImage] = useState(open?.imageURL);
@@ -360,7 +383,7 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                     ? schoolRegLink
                     : `${window?.location?.origin}/admin/${values?.displayName}/${user?.uid}/${fairId}`,
                     fairId: open?.id ? open?.id : new Date().getTime(),
-                    MajorUrl: `http://127.0.0.1:7008/StudentMajorReg/${values.displayName}/${fairId}/${values.cityName}/${values.countryName}`,
+                    MajorUrl: `http://127.0.0.1:7008/StudentMajorReg/${values.displayName}/${fairId}/${values.city}/${values.country}`,
                   });
           }
         }
@@ -421,6 +444,34 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                   : ""}
               </p>
             </div>
+              ): schemaItem?.name === "displayName" ? (
+                <TextField
+                  id={schemaItem?.name}
+                  name={schemaItem?.name}
+                  label={schemaItem?.label}
+                  select
+                  value={formik.values.displayName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched[schemaItem?.name] &&
+                    Boolean(formik.errors[schemaItem?.name])
+                  }
+                  helperText={
+                    formik.touched[schemaItem?.name] &&
+                    formik.errors[schemaItem?.name]
+                  }
+                  fullWidth
+                  margin="normal"
+                >
+                  {eventNames
+                    .filter((eventName) => eventName.role === "school")
+                    .map((eventName, idx) => (
+                      <MenuItem key={idx} value={eventName.displayName}>
+                        {eventName.displayName}
+                      </MenuItem>
+                    ))}
+                </TextField>
           ) : schemaItem?.name === "country" ? (
             <TextField
               select

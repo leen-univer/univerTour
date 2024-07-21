@@ -22,11 +22,11 @@ import { getArrFromObj } from "@ashirbad/js-core";
 import moment from "moment";
 
 const ViewStudentpulsDialog = ({ rowData, handleClose }) => {
-  const students = getArrFromObj(rowData?.students) || [];
+  const students = getArrFromObj(rowData?.forms?.studentMajorForm?.students) || [];
   const totalStudents = students.length;
   const maleStudents = students.filter((student) => student.gender === "MALE").length;
   const femaleStudents = students.filter((student) => student.gender === "FEMALE").length;
-
+console.log("dd",rowData);
   const countryCount = students.reduce((acc, student) => {
     acc[student.nationality] = (acc[student.nationality] || 0) + 1;
     return acc;

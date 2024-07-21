@@ -8,6 +8,7 @@ import { Avatar } from "@mui/material";
 import { getArrFromObj } from "@ashirbad/js-core";
 import { countries } from "configs";
 import ViewStudentPulsDialog from "../components/dialog/ViewStudentPulsDialog";
+import ViewRegisterStudentDialog from "../components/dialog/ViewRegisteredStudentDialog";
 
 import { ViewItineraryDialog } from "components/dialog";
 import { AddStudentDrawer, EditStudentDrawer } from "components/drawer";
@@ -26,16 +27,18 @@ const Leads = () => {
   const [openRequestUniversityDrawer, setOpenRequestUniversityDrawer] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [openStudent, setOpenStudent] = useState(false);
+  const [openStudentS, setOpenStudents] = useState(false);
   const [data, setData] = useState([]);
   const { students } = useStudents();
   const { snackBarOpen } = useAppContext();
   const { sendNotification, sendMail } = useAppContext();
   const { universities } = useUniversities();
   const Universities = universities.filter(university => university?.role === "university");
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
+
         const snapshot = await database.ref(`/NewFairs`).once("value");
         const data = snapshot.val();
 
@@ -44,12 +47,18 @@ const Leads = () => {
           const processedData = await Promise.all(Object.keys(data).map(async (key) => {
             const studentsSnapshot = await database.ref(`/NewFairs/${key}/forms/studentMajorForm/students`).once("value");
             const studentsData = studentsSnapshot.val();
+            const studentsSnapshot2 = await database.ref(`/NewFairs/${key}/students`).once("value");
+            const studentsData2 = studentsSnapshot2.val();
             const studentsList = studentsData ? Object.values(studentsData) : [];
+            const studentsList2 = studentsData2 ? Object.values(studentsData2) : [];
+console.log("2",studentsData2);
+console.log("1",studentsData);
             
             return {
               ...data[key],
               id: key,
-              students: studentsList,
+              students: studentsList2,
+              studentsleen:studentsList
             };
           }));
 
@@ -94,9 +103,14 @@ const Leads = () => {
         rowData={openDialog}
         handleClose={() => setOpenDialog(false)}
       />
-      <ViewStudentPulsDialog
-        rowData={openStudent}
-        handleClose={() => setOpenStudent(false)}
+ 
+      <ViewRegisterStudentDialog
+        rowData={openStudentS}
+        handleClose={() => setOpenStudents(false)}
+      />
+     <ViewStudentPulsDialog
+          rowData={openStudent}
+          handleClose={() => setOpenStudent(false)}
       />
       <MaterialTable
         data={data
@@ -277,14 +291,23 @@ const Leads = () => {
                   </div>
                   {rowData?.students?.length ? (
                     <div className="">
+                      <Tooltip title="View Registered Student">
+                        <IconButton onClick={() => setOpenStudents(rowData)}>
+                          <Person />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  ) : null}  
+                  {rowData?.students?.length ? (
+                    <div className="">
                       <Tooltip title="View Students Pulse">
                         <IconButton onClick={() => setOpenStudent(rowData)}>
                           <FactCheckIcon />
                         </IconButton>
                       </Tooltip>
                     </div>
-                  ) : null}
-                </div>
+                  ) : null}             
+           </div>
               ),
           },
         ]}
@@ -403,7 +426,7 @@ const CloneEvent = ({ rowData }) => {
               link: rowData?.link || "",
               notes: rowData?.notes || "",
               regLink: `https://www.univertours.com/admin/${rowData?.displayName}/${user?.uid}/${fairId}`,
-              MajorUrl: `http://127.0.0.1:7008/StudentMajorReg/${rowData?.displayName}/${fairId}/${rowData?.cityName}/${rowData?.countryName}`,
+              MajorUrl: `http://127.0.0.1:7008/StudentMajorReg/${rowData.displayName}/${fairId}/${rowData.cityName}/${rowData.countryName}`,
             });
 
             setLoading(false);

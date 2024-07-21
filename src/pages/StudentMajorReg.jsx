@@ -27,8 +27,8 @@ import { database } from 'configs';
 
 const StudentMajorReg = () => {
   const { snackBarOpen } = useAppContext();
-  const { displayName, city, country, fairId } = useParams(); // استخراج المعلمات من URL
-  const [students, setStudents] = useState([]); // حالة لإدارة البيانات المعبأة
+  const { displayName, city, country, fairId, fairName } = useParams(); // Extracting parameters from URL
+  const [students, setStudents] = useState([]); // State for managing fetched data
 
   const initialValues = StudentMajorRegSchema.reduce((accumulator, currentValue) => {
     accumulator[currentValue.name] = currentValue.initialValue;
@@ -110,17 +110,27 @@ const StudentMajorReg = () => {
           <div style={{ textAlign: 'center', marginTop: '2vh' }}>
             <img src={LOGO} width="150" alt="" />
           </div>
+         
           <CardHeader
             title={`The Student Pulse`}
             titleTypographyProps={{
-              gutterBottom: true,
               align: 'center',
             }}
             subheaderTypographyProps={{
-              gutterBottom: true,
               align: 'center',
             }}
           />
+          <CardHeader
+            subheader={`Please Register Here For ${displayName ? displayName : ""}`}
+            titleTypographyProps={{
+              align: "center",
+              style: { marginBottom: 0 }
+            }}
+            subheaderTypographyProps={{
+              align: "center",
+            }}
+          />
+
           <Formik
             initialValues={initialValues}
             validationSchema={Yup.object(validationSchema)}
@@ -214,18 +224,7 @@ const StudentMajorReg = () => {
               </Form>
             )}
           </Formik>
-          <div style={{ margin: '20px' }}>
-            <Typography variant="h6">البيانات المعبأة:</Typography>
-            {students.length ? students.map((student, index) => (
-              <Card key={index} variant="outlined" style={{ marginBottom: '10px', padding: '10px' }}>
-                {Object.entries(student).map(([key, value]) => (
-                  <Typography key={key}><strong>{key}:</strong> {value}</Typography>
-                ))}
-              </Card>
-            )) : (
-              <Typography>لا توجد بيانات مسجلة.</Typography>
-            )}
-          </div>
+
         </Card>
       </Container>
     </div>

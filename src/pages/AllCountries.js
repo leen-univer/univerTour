@@ -112,10 +112,11 @@ const AllCountries = () => {
             validate: (value) => (value?.length ? true : 'Required'),
           },
           {
-            title: 'Student Count',
+            title: 'Student Pulse',
             field: 'studentCount',
             editable: 'never',
           },
+          
           {
             title: 'Created At',
             field: 'timestamp',
@@ -123,14 +124,18 @@ const AllCountries = () => {
             emptyValue: '--',
             render: ({ timestamp }) => moment(timestamp).format('Do MMM YYYY hh:mm A'),
           },
+          
           {
             title: 'Assign University',
             render: (rowData) => (
               <IconButton onClick={() => setOpenAssignUniversity(rowData)}>
                 <School />
               </IconButton>
+
+              
             ),
           },
+          
         ]}
         editable={{
           onRowAdd: async (newData) => {
@@ -246,11 +251,11 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
             searchable: true,
             validate: (value) => (value?.length ? true : 'Required'),
           },
-          {
-            title: 'Student Count',
-            field: 'studentCount',
-            editable: 'never',
-          },
+          // {
+          //   title: 'Student Pulse',
+          //   field: 'studentCount',
+          //   editable: 'never',
+          // },
           {
             title: 'Created At',
             field: 'timestamp',
@@ -287,7 +292,7 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
             ),
           },
           {
-            title: 'Student Details', 
+            title: 'Student pulse Details', 
             render: (rowData) => (
               <IconButton onClick={() => setOpenCityDetails(rowData)}>
                 <LocationCity />

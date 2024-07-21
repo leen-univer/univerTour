@@ -111,7 +111,8 @@ const StudentRegistration = () => {
               `,
         });
         Swal.fire({
-          text: `Your registration id for fair ${params?.fairName} is ${studentID}`,
+          text: `Your registration id for fair
+          ${params?.fairName} is ${studentID}`,
           icon: "success",
         });
       } else {
