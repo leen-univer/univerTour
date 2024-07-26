@@ -298,7 +298,7 @@ console.log("1",studentsData);
                       </Tooltip>
                     </div>
                   ) : null}  
-                  {rowData?.students?.length ? (
+                  {rowData?.studentsleen?.length ? (
                     <div className="">
                       <Tooltip title="View Students Pulse">
                         <IconButton onClick={() => setOpenStudent(rowData)}>

@@ -26,7 +26,7 @@ const StudentFair = () => {
       try {
         const snapshot = await database.ref('/NewFairs').once('value');
         const data = snapshot.val();
-
+  
         let totalStudents = 0;
         let maleCount = 0;
         let femaleCount = 0;
@@ -34,68 +34,61 @@ const StudentFair = () => {
         let nationalityCounts = {};
         let nationalityOfAreaInterestCounts = {};
         let areaOfInterestCounts = {};
-
-        // Sort keys by descending order
+  
         const keys = Object.keys(data).sort((a, b) => b - a);
-
+  
         for (const key of keys) {
           const studentsSnapshot = await database.ref(`/NewFairs/${key}/forms/studentMajorForm/students`).once('value');
           const studentsData = studentsSnapshot.val();
-
+  
           for (const studentId in studentsData) {
             const student = studentsData[studentId];
             totalStudents++;
-
+  
             if (student.gender === 'MALE') {
               maleCount++;
             } else if (student.gender === 'FEMALE') {
               femaleCount++;
             }
-
-            // Count nationalities
+  
             if (student.nationality) {
               nationalityCounts[student.nationality] = (nationalityCounts[student.nationality] || 0) + 1;
             }
-
-            // Count nationalityOfAreaInterest
+  
             if (student.nationalityOfAreaInterest) {
               nationalityOfAreaInterestCounts[student.nationalityOfAreaInterest] = (nationalityOfAreaInterestCounts[student.nationalityOfAreaInterest] || 0) + 1;
             }
-
-            // Count areas of interest
+  
             if (student.areaOfInterest) {
               areaOfInterestCounts[student.areaOfInterest] = (areaOfInterestCounts[student.areaOfInterest] || 0) + 1;
             }
-
-            // Decode country and city fields if they are encoded
+  
             let country = student.country;
             let city = student.city;
-
+  
             try {
               country = atob(country);
               city = atob(city);
             } catch (error) {
               console.error("Error decoding country or city:", error);
             }
-
+  
             countries.push({
               studentId: studentId,
               gender: student.gender,
               nationality: student.nationality,
               areaOfInterest: student.areaOfInterest,
               nationalityOfAreaInterest: student.nationalityOfAreaInterest,
-              country: country, // Decoded country
-              city: city,       // Decoded city
+              country: country,
+              city: city,
             });
           }
         }
-
-        // Sort countries array by descending order of studentId (assuming newer entries have higher ids)
-        countries.sort((a, b) => b.studentId.localeCompare(a.studentId));
-
-        // Add sequential numbering
+  
+        countries.sort((a, b) => a.studentId.localeCompare(b.studentId)); // ترتيب البيانات من الأقدم إلى الأحدث
+  
         countries = countries.map((country, index) => ({ ...country, sl: index + 1 }));
-
+  
         setStudentData({
           studentCount: totalStudents,
           maleCount: maleCount,
@@ -118,9 +111,10 @@ const StudentFair = () => {
         console.error("Error fetching student data:", error);
       }
     };
-
+  
     fetchStudentData();
   }, []);
+  
 
   const handleShowTable = () => {
     setShowTable(true);
@@ -220,41 +214,34 @@ const StudentFair = () => {
           </p>
         </DialogTitle>
         <DialogContent dividers>
-          <MaterialTable
-            data={studentData.countries}
-            title="All Students Data"
-            columns={[
-              { title: '#', field: 'sl' }, // Updated title
-              { title: 'Gender', field: 'gender' },
-              { title: 'Nationality', field: 'nationality' },
-              { title: 'Country', field: 'country' },         // New column: Country
-              { title: 'City', field: 'city' },               // New column: City
-              { title: 'Area Of Interest', field: 'areaOfInterest' },
-              { title: 'Country Of Area Interest', field: 'nationalityOfAreaInterest' },
-              // Add more fields as needed
-            ]}
-            options={{
-              exportButton: true,
-              filtering: true,
-              sorting: true,
-              exportAllData: true,
-              pageSize: 10,
-              pageSizeOptions: [10, 20, 50],
-              customSort: (data, field, sortOrder) => {
-                // Custom sort function for S.No
-                if (field === 'sl') {
-                  return data.sort((a, b) => {
-                    if (sortOrder === 'asc') {
-                      return a.sl - b.sl;
-                    } else {
-                      return b.sl - a.sl;
-                    }
-                  });
-                }
-                return data;
-              },
-            }}
-          />
+        <MaterialTable
+  data={studentData.countries}
+  title="All Students Data"
+  columns={[
+    { title: '#', field: 'sl', defaultSort: 'asc' }, // ترتيب تصاعدي افتراضي
+    { title: 'Gender', field: 'gender' },
+    { title: 'Nationality', field: 'nationality' },
+    { title: 'Country', field: 'country' },         // عمود جديد: الدولة
+    { title: 'City', field: 'city' },               // عمود جديد: المدينة
+    { title: 'Area Of Interest', field: 'areaOfInterest' },
+    { title: 'Country Of Area Interest', field: 'nationalityOfAreaInterest' },
+  ]}
+  options={{
+    exportButton: true,
+    filtering: true,
+    exportAllData: true,
+    pageSize: 10,
+    pageSizeOptions: [10, 20, 50],
+    customSort: (a, b, field) => {
+      if (field === 'sl') {
+        return a.sl - b.sl; // ترتيب تصاعدي (من الأقدم إلى الأحدث)
+      }
+      return 0; // الحفاظ على الترتيب الافتراضي للأعمدة الأخرى
+    },
+  }}
+/>
+
+
         </DialogContent>
       </Dialog>
     </div>

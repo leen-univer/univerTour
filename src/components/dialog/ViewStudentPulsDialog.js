@@ -156,7 +156,7 @@ console.log("dd",rowData);
               }))}
               title="Details"
               columns={[
-                { title: "#", field: "id", filtering: false },
+                { title: "#", field: "sl", filtering: false },
                 { title: "Gender", field: "gender", export: true },
                 { title: "Nationality", field: "nationality", export: true },
                 { title: "Area Of Interest", field: "areaOfInterest", export: true },

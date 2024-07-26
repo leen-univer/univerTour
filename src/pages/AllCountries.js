@@ -10,7 +10,7 @@ import { useAppContext } from 'contexts';
 import { useFetch, useStudents } from 'hooks';
 import AssignUniversityDrawer from 'components/drawer/AssignUniversityDrawer';
 import KeyInfoDialog from 'components/dialog/KeyInfoDialog';
-import CityDetailsDialog from 'components/dialog/CityDetailsDialog'; // Assuming you have a CityDetailsDialog component
+import CityDetailsDialog from 'components/dialog/CityDetailsDialog';
 
 const AllCountries = () => {
   const [openAssignUniversity, setOpenAssignUniversity] = useState(false);
@@ -66,6 +66,7 @@ const AllCountries = () => {
             }
           }
         }
+        console.log('Country Student Count:', countryStudentCount);
         setStudentsCountByCountry(countryStudentCount);
         setCountryKey(countryKey);
         setStudentsCountByCity(cityStudentCount);
@@ -109,14 +110,13 @@ const AllCountries = () => {
             field: 'countryName',
             searchable: true,
             export: true,
-            validate: (value) => (value?.length ? true : 'Required'),
+            validate: (rowData) => rowData.countryName && rowData.countryName.length > 0 ? true : 'Required',
           },
           {
             title: 'Student Pulse',
             field: 'studentCount',
             editable: 'never',
           },
-          
           {
             title: 'Created At',
             field: 'timestamp',
@@ -124,18 +124,15 @@ const AllCountries = () => {
             emptyValue: '--',
             render: ({ timestamp }) => moment(timestamp).format('Do MMM YYYY hh:mm A'),
           },
-          
           {
-            title: 'Assign University',
+            title: "Assign University",
+            hidden: true,
             render: (rowData) => (
               <IconButton onClick={() => setOpenAssignUniversity(rowData)}>
                 <School />
               </IconButton>
-
-              
             ),
           },
-          
         ]}
         editable={{
           onRowAdd: async (newData) => {
@@ -147,7 +144,7 @@ const AllCountries = () => {
               snackBarOpen('Country Created Successfully', 'success');
             } catch (error) {
               snackBarOpen(error.message, 'error');
-              console.log(error);
+              console.log(error, "Error adding country");
             }
           },
           onRowUpdate: async (newData, oldData) => {
@@ -159,7 +156,7 @@ const AllCountries = () => {
               snackBarOpen('Country Updated Successfully', 'success');
             } catch (error) {
               snackBarOpen(error.message, 'error');
-              console.log(error);
+              console.log(error, "Error updating country");
             }
           },
           onRowDelete: async (oldData) => {
@@ -168,7 +165,7 @@ const AllCountries = () => {
               snackBarOpen('Country Deleted Successfully', 'success');
             } catch (error) {
               snackBarOpen(error.message, 'error');
-              console.log(error);
+              console.log(error, "Error deleting country");
             }
           },
         }}
@@ -187,6 +184,8 @@ const AllCountries = () => {
     </section>
   );
 };
+
+export default AllCountries;
 
 const CityTable = ({ rowData, loading, studentsCountByCity }) => {
   const { students } = useStudents();
@@ -249,30 +248,31 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
             title: 'City Name',
             field: 'cityName',
             searchable: true,
-            validate: (value) => (value?.length ? true : 'Required'),
+            validate: (rowData) => rowData.cityName && rowData.cityName.length > 0 ? true : 'Required',
           },
-          // {
-          //   title: 'Student Pulse',
-          //   field: 'studentCount',
-          //   editable: 'never',
-          // },
           {
             title: 'Created At',
             field: 'timestamp',
             editable: 'never',
             filtering: false,
-            render: ({ timestamp }) => moment(new Date(timestamp)).format('lll'),
+            render: ({ timestamp }) => moment(new Date(timestamp)).format('Do MMM YYYY hh:mm A'),
           },
           {
-            title: 'Participated Universities',
+            title: "Participated Universities",
             render: ({ id }) => (
-              <IconButton onClick={() => copyToClipboard(`${window?.location?.origin}/${rowData?.id}/${id}`)}>
+              <IconButton
+                onClick={() =>
+                  copyToClipboard(
+                    `${window?.location?.origin}/${rowData?.id}/${id}`
+                  )
+                }
+              >
                 <CopyAll />
               </IconButton>
             ),
           },
           {
-            title: 'Assign University',
+            title: "Assign University",
             render: (rowData) => (
               <IconButton onClick={() => setOpenAssignUniversity(rowData)}>
                 <School />
@@ -280,16 +280,9 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
             ),
           },
           {
-            title: 'Total School visits',
-            field: 'totalSchoolVisits',
-          },
-          {
-            title: 'Key Info',
-            render: (rowData) => (
-              <IconButton onClick={() => setOpenInfo(rowData)}>
-                <Info />
-              </IconButton>
-            ),
+            title: "Total School Visits",
+            field: "totalSchoolVisits",
+            editable: "never",
           },
           {
             title: 'Student pulse Details', 
@@ -299,20 +292,23 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
               </IconButton>
             ),
           },
+        
+          {
+            title: "Key Info",
+            render: ({ id }) => (
+              <IconButton onClick={() => setOpenInfo(id)}>
+                <Info />
+              </IconButton>
+            ),
+          },
         ]}
         options={{
-          detailPanelColumnAlignment: 'right',
-          exportAllData: true,
-          selection: false,
-          exportMenu: [
-            {
-              label: 'Export Users Data In CSV',
-              exportFunc: (cols, data) => ExportCsv(cols, data),
-            },
-          ],
+          filtering: false,
+          sorting: true,
+          paging: true,
           actionsColumnIndex: -1,
+          exportAllData: true,
         }}
-        style={{ boxShadow: '0px 10px 50px rgba(0, 0, 0, 0.05)' }}
         editable={{
           onRowAdd: async (newData) => {
             try {
@@ -323,19 +319,19 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
               snackBarOpen('City Created Successfully', 'success');
             } catch (error) {
               snackBarOpen(error.message, 'error');
-              console.log(error);
+              console.log(error, "Error adding city");
             }
           },
           onRowUpdate: async (newData, oldData) => {
             try {
               await database.ref(`/Countries/${rowData?.id}/cities/${oldData?.id}`).update({
-                cityName: newData?.cityName,
+                ...newData,
                 updatedAt: new Date().toString(),
               });
               snackBarOpen('City Updated Successfully', 'success');
             } catch (error) {
               snackBarOpen(error.message, 'error');
-              console.log(error);
+              console.log(error, "Error updating city");
             }
           },
           onRowDelete: async (oldData) => {
@@ -344,7 +340,7 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
               snackBarOpen('City Deleted Successfully', 'success');
             } catch (error) {
               snackBarOpen(error.message, 'error');
-              console.log(error);
+              console.log(error, "Error deleting city");
             }
           },
         }}
@@ -353,5 +349,3 @@ const CityTable = ({ rowData, loading, studentsCountByCity }) => {
     </div>
   );
 };
-
-export default AllCountries;

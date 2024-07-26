@@ -8,35 +8,60 @@ const useSchoolFairs = () => {
   const { user } = useAppContext();
   const [schoolFairs, setSchoolFairs] = useState([]);
   const { isMounted } = useIsMounted();
+
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        await database.ref(`SchoolFairs/${user?.uid}`).on("value", (snap) => {
-          const arr = getArrFromSnap(snap).map((item, i) => {
-            if (item?.requestedBy) {
-              const arr = [];
-              for (let i in item?.requestedBy) {
-                arr.push({
-                  timestamp: item?.requestedBy[i],
-                  universityUid: i,
+    if (user?.displayName) {
+      const fetchStudents = async () => {
+        try {
+          const ref = database.ref(`NewFairs`);
+          ref.on("value", (snap) => {
+            console.log("Data snapshot received:", snap.val());
+            if (snap.exists()) {
+              // Convert snapshot to array
+              const arr = getArrFromSnap(snap)
+                .filter(item => item.displayName === user.displayName) // Filter based on displayName
+                .map((item, i) => {
+                  if (item?.requestedBy) {
+                    const requestedByArr = [];
+                    for (let key in item.requestedBy) {
+                      requestedByArr.push({
+                        timestamp: item.requestedBy[key],
+                        universityUid: key,
+                      });
+                    }
+                    item = { ...item, requestedBy: requestedByArr };
+                  }
+                  return {
+                    ...item,
+                    sl: i + 1,
+                  };
                 });
-                item = { ...item, requestedBy: arr };
+
+              arr.sort((a, b) => new Date(a.date) - new Date(b.date));
+              if (isMounted.current) {
+                setSchoolFairs(arr);
+                console.log("School fairs set:", arr);
               }
+            } else {
+              console.log("No data available for the given displayName");
             }
-            return {
-              ...item,
-              sl: i + 1,
-            };
           });
-          arr.sort((a, b) => new Date(a?.date) - new Date(b?.date));
-          isMounted.current && setSchoolFairs(arr);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchStudents();
-  }, [isMounted, user?.uid]);
+        } catch (error) {
+          console.error("Error fetching school fairs:", error);
+        }
+      };
+
+      fetchStudents();
+
+      return () => {
+        const ref = database.ref(`NewFairs`);
+        ref.off();
+      };
+    } else {
+      console.log("User displayName is not available yet");
+    }
+  }, [isMounted, user?.displayName]);
+
   return {
     schoolFairs,
   };
