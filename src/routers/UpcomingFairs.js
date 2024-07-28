@@ -196,20 +196,20 @@ const UpcomingFairs = () => {
 												</a>
 											</Typography>
 											<Typography variant="h6" gutterBottom align="left">
-  Studenttttttttttttt Fair Link:{" "}
-  {rowData?.fairLink !== undefined ? (
-    <a
-      href={rowData?.fairLink}
-      style={{ textDecoration: "none", fontSize: "1rem" }}
-      target="_blank"
-      rel="noreferrer"
-    >
-      {rowData?.fairLink}
-    </a>
-  ) : (
-    "Fair Link is not defined"
-  )}
-</Typography>
+												Studenttttttttttttt Fair Link:{" "}
+												{rowData?.fairLink !== undefined ? (
+													<a
+													href={rowData?.fairLink}
+													style={{ textDecoration: "none", fontSize: "1rem" }}
+													target="_blank"
+													rel="noreferrer"
+													>
+													{rowData?.fairLink}
+													</a>
+												) : (
+													"Fair Link is not defined"
+												)}
+												</Typography>
 
 
 

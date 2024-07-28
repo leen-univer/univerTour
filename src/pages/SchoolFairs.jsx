@@ -238,80 +238,80 @@ const SchoolFairs = () => {
           boxShadow: "#6a1b9a3d 0px 8px 16px 0px",
           borderRadius: "8px",
         }}
-        editable={{
-          onRowDelete: async (oldData) => {
-            try {
-              const usersRef = database.ref("Users");
+        // editable={{
+        //   onRowDelete: async (oldData) => {
+        //     try {
+        //       const usersRef = database.ref("Users");
 
-              // Fetch all users from the database.
-              const snapshot = await usersRef.once("value");
-              const usersData = snapshot.val();
+        //       // Fetch all users from the database.
+        //       const snapshot = await usersRef.once("value");
+        //       const usersData = snapshot.val();
 
-              // Loop through each user and check if the fairId exists in their upcoming fairs.
-              for (const uid in usersData) {
-                const user = usersData[uid];
+        //       // Loop through each user and check if the fairId exists in their upcoming fairs.
+        //       for (const uid in usersData) {
+        //         const user = usersData[uid];
 
-                if (user.upcomingFairs && user.upcomingFairs[oldData?.id]) {
-                  // If the fairId exists in the user's upcoming fairs, remove it.
-                  await usersRef
-                    .child(`${uid}/upcomingFairs/${oldData?.id}`)
-                    .remove();
-                }
-              }
-              await database
-                .ref(`SchoolFairs/${user?.uid}/${oldData.id}`)
-                .remove();
-              // await database
-              // 	.ref(`Users/${user?.uid}/upcomingFairs/${oldData?.id}`)
-              // 	.remove();
-              snackBarOpen(
-                `Fair  ${oldData.displayName} Deleted Successfully`,
-                "success"
-              );
-              // const notification = {
-              // 	title: "Fair Deleted",
-              // 	description: `Fair ${oldData.displayName} Deleted By School`,
-              // 	read: false,
-              // 	timestamp: new Date().toString(),
-              // };
-              // Universities?.forEach(async (item) => {
-              // 	return (
-              // 		sendNotification({
-              // 			notification: {
-              // 				title: `Fair Deleted`,
-              // 				body: `Fair ${oldData.displayName} Deleted By School`,
-              // 			},
-              // 			FCMToken: item?.fcmToken,
-              // 		}),
-              // 		sendMail({
-              // 			to: item?.email,
-              // 			subject: "College Fair Cancelled",
-              // 			html: `
-              // 		<p>
-              // 		We have got an important update for you! The below college fair has been cancelled<br/>
-              // 		<br/>
-              // 		Fair Name: <strong>${oldData.displayName}</strong> <br/>
-              // 		Fair Date: <strong> ${moment(oldData?.date).format(
-              // 							"LL"
-              // 						)}</strong><br/>
-              // 		<br/>
-              // 		We apologize for the inconvenience, please get in touch with us if you have any questions.<br/>
-              // 		<br/>
-              // 		Univer Team
-              // 		</p>
-              // 		`,
-              // 		}),
-              // 		database.ref(`Notifications/${item?.uid}`).push(notification)
-              // 	);
-              // });
+        //         if (user.upcomingFairs && user.upcomingFairs[oldData?.id]) {
+        //           // If the fairId exists in the user's upcoming fairs, remove it.
+        //           await usersRef
+        //             .child(`${uid}/upcomingFairs/${oldData?.id}`)
+        //             .remove();
+        //         }
+        //       }
+        //       await database
+        //         .ref(`SchoolFairs/${user?.uid}/${oldData.id}`)
+        //         .remove();
+        //       // await database
+        //       // 	.ref(`Users/${user?.uid}/upcomingFairs/${oldData?.id}`)
+        //       // 	.remove();
+        //       snackBarOpen(
+        //         `Fair  ${oldData.displayName} Deleted Successfully`,
+        //         "success"
+        //       );
+        //       // const notification = {
+        //       // 	title: "Fair Deleted",
+        //       // 	description: `Fair ${oldData.displayName} Deleted By School`,
+        //       // 	read: false,
+        //       // 	timestamp: new Date().toString(),
+        //       // };
+        //       // Universities?.forEach(async (item) => {
+        //       // 	return (
+        //       // 		sendNotification({
+        //       // 			notification: {
+        //       // 				title: `Fair Deleted`,
+        //       // 				body: `Fair ${oldData.displayName} Deleted By School`,
+        //       // 			},
+        //       // 			FCMToken: item?.fcmToken,
+        //       // 		}),
+        //       // 		sendMail({
+        //       // 			to: item?.email,
+        //       // 			subject: "College Fair Cancelled",
+        //       // 			html: `
+        //       // 		<p>
+        //       // 		We have got an important update for you! The below college fair has been cancelled<br/>
+        //       // 		<br/>
+        //       // 		Fair Name: <strong>${oldData.displayName}</strong> <br/>
+        //       // 		Fair Date: <strong> ${moment(oldData?.date).format(
+        //       // 							"LL"
+        //       // 						)}</strong><br/>
+        //       // 		<br/>
+        //       // 		We apologize for the inconvenience, please get in touch with us if you have any questions.<br/>
+        //       // 		<br/>
+        //       // 		Univer Team
+        //       // 		</p>
+        //       // 		`,
+        //       // 		}),
+        //       // 		database.ref(`Notifications/${item?.uid}`).push(notification)
+        //       // 	);
+        //       // });
 
-              // snackBarOpen("Student Data updated Successfully", "success");
-            } catch (error) {
-              snackBarOpen(error.message, "error");
-              console.log(error);
-            }
-          },
-        }}
+        //       // snackBarOpen("Student Data updated Successfully", "success");
+        //     } catch (error) {
+        //       snackBarOpen(error.message, "error");
+        //       console.log(error);
+        //     }
+        //   },
+        // }}
         actions={[
           {
             icon: "add",
@@ -319,11 +319,11 @@ const SchoolFairs = () => {
             isFreeAction: true,
             onClick: (evt, rowData) => navigate("/add-fairs"),
           },
-          {
-            icon: "edit",
-            tooltip: <strong>{"Edit Fair"}</strong>,
-            onClick: (evt, rowData) => setOpenEditStudentDrawer(rowData),
-          },
+          // {
+          //   icon: "edit",
+          //   tooltip: <strong>{"Edit Fair"}</strong>,
+          //   onClick: (evt, rowData) => setOpenEditStudentDrawer(rowData),
+          // },
         ]}
         detailPanel={[
           {
@@ -367,21 +367,20 @@ const SchoolFairs = () => {
                         </a>
                       </Typography>
                       <Typography variant="h6" gutterBottom align="left">
-              Student Fair Link:{" "}
-              {rowData?.fairLink ? (
-                <a
-                  href={rowData.fairLink}
-                  style={{ textDecoration: "none", fontSize: "1rem" }}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {rowData.fairLink}
-                </a>
-              ) : (
-                "Fair Link is not defined"
-              )}
-            </Typography>
-
+                Student Major Link:{" "}
+                {rowData?.MajorUrl ? (
+                  <a
+                    href={rowData?.MajorUrl}
+                    style={{ textDecoration: "none", fontSize: "1rem" }}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {rowData?.MajorUrl}
+                  </a>
+                ) : (
+                  "Major Link is not defined"
+                )}
+              </Typography>
 
 
 

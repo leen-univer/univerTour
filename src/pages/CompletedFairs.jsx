@@ -311,20 +311,20 @@ const CompletedFairs = () => {
 												</a>
 											</Typography>
 											<Typography variant="h6" gutterBottom align="left">
-  Studenjjhhhhhhhhhhhhhht Fair Link:{" "}
-  {rowData?.fairLink !== undefined ? (
-    <a
-      href={rowData?.fairLink}
-      style={{ textDecoration: "none", fontSize: "1rem" }}
-      target="_blank"
-      rel="noreferrer"
-    >
-      {rowData?.fairLink}
-    </a>
-  ) : (
-    "Fair Link is not defined"
-  )}
-</Typography>
+												Student Major Link:{" "}
+												{rowData?.MajorUrl ? (
+												<a
+													href={rowData?.MajorUrl}
+													style={{ textDecoration: "none", fontSize: "1rem" }}
+													target="_blank"
+													rel="noreferrer"
+												>
+													{rowData?.MajorUrl}
+												</a>
+												) : (
+												"Major Link is not defined"
+												)}
+											</Typography>
 
 
 											<Typography variant="h6" gutterBottom align="left">

@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { SendNotification } from "components/dialog";
 import { AddUniversityDrawer, EditUniversityDrawer } from "components/drawer";
+import { database } from "configs";
 import { BASE_URL } from "configs/api";
 import { useAppContext } from "contexts";
 import { useUniversities } from "hooks";
@@ -69,22 +70,27 @@ const Schools = () => {
           },
           { title: "Location", field: "location", hidden: true, export: true },
           { title: "Country", field: "country", hidden: true, export: true },
-        
+          // {
+          //   title: "Credits",
+          //   field: "creditAmount",
+          //   headerStyle: {
+          //     textAlign: "center",
+          //   },
+          //   cellStyle: {
+          //     textAlign: "center",
+          //   },
+
+          //   export: true,
+          // },
 
           {
             title: "Created At",
-            field: "created_at",
-            emptyValue: "--",
-            render: ({ created_at }) =>
-              moment(created_at).format("Do MMM YYYY hh:mm A"),
-            customSort: (a, b) =>
-              new Date(b?.timestamp) - new Date(a?.timestamp),
-            headerStyle: {
-              textAlign: "center",
-            },
-            cellStyle: {
-              textAlign: "center",
-            },
+            searchable: true,
+            field: "timestamp",
+            render: (rowData) =>
+              moment(rowData?.timestamp).format("Do MMM YYYY hh:mm A"),
+            filtering: false,
+            editable: "never",
           },
         ]}
         detailPanel={[
@@ -161,7 +167,180 @@ const Schools = () => {
             ),
           },
 
-        
+          // {
+          //   icon: "school",
+          //   openIcon: "visibility",
+          //   tooltip: "View Participated Fairs",
+          //   render: ({ rowData }) => (
+          //     <div
+          //       style={{
+          //         padding: "4vh",
+          //         margin: "auto",
+          //         backgroundColor: "#eef5f9",
+          //       }}
+          //     >
+          //       <MaterialTable
+          //         data={getArrFromObj(rowData?.upcomingFairs)
+          //           .map((student, i) => ({
+          //             ...student,
+          //             startDate: new Date(
+          //               new Date(student?.date).getFullYear(),
+          //               new Date(student?.date).getMonth(),
+          //               new Date(student?.date).getDate(),
+          //               +student?.time?.split(":")[0],
+          //               +student?.time?.split(":")[1]
+          //             ),
+          //             endDate: new Date(
+          //               new Date(student?.date).getFullYear(),
+          //               new Date(student?.date).getMonth(),
+          //               new Date(student?.date).getDate(),
+          //               +student?.endTime?.split(":")[0],
+          //               +student?.endTime?.split(":")[1]
+          //             ),
+          //           }))
+          //           .slice()
+          //           ?.sort(
+          //             (a, b) => new Date(a?.startDate) - new Date(b?.startDate)
+          //           )
+          //           .map((item, i) => ({ ...item, sl: i + 1 }))}
+          //         title={`${rowData?.displayName} Participated Fairs`}
+          //         columns={[
+          //           {
+          //             title: "#",
+          //             field: "sl",
+          //             width: "2%",
+          //           },
+          //           {
+          //             title: "Fair Name",
+          //             field: "displayName",
+          //             searchable: true,
+          //             render: ({ displayName }) => (
+          //               <>
+          //                 <ListItem>
+          //                   <ListItemText
+          //                     primary={displayName}
+          //                     // secondary={`${email}`}
+          //                   />
+          //                 </ListItem>
+          //               </>
+          //             ),
+          //           },
+          //           {
+          //             title: "City",
+          //             searchable: true,
+          //             field: "city",
+          //           },
+          //           {
+          //             title: "School System",
+          //             field: "schoolName",
+          //             searchable: true,
+          //             filtering: false,
+          //           },
+          //           {
+          //             title: "Fair Date",
+          //             searchable: true,
+          //             field: "date",
+          //             filtering: false,
+          //             editable: "never",
+          //             headerStyle: {
+          //               textAlign: "center",
+          //             },
+          //             cellStyle: {
+          //               textAlign: "center",
+          //             },
+          //             render: (rowData) => moment(rowData?.date).format("LL"),
+          //           },
+          //           { title: "Start Time", field: "time", emptyValue: "--" },
+          //           {
+          //             title: "End Time",
+          //             field: "endTime",
+          //             // headerStyle: {
+          //             //   textAlign: "center",
+          //             // },
+          //             // cellStyle: {
+          //             //   textAlign: "center",
+          //             // },
+          //             emptyValue: "--",
+          //           },
+          //           {
+          //             title: "Number of Students",
+          //             searchable: true,
+          //             field: "studentCount",
+          //             type: "numeric",
+          //             filtering: false,
+          //             headerStyle: {
+          //               textAlign: "center",
+          //             },
+          //             cellStyle: {
+          //               textAlign: "center",
+          //             },
+          //           },
+          //           {
+          //             title: "Participation Credit",
+          //             searchable: true,
+          //             field: "credits",
+          //             type: "numeric",
+          //             filtering: false,
+          //             headerStyle: {
+          //               textAlign: "center",
+          //             },
+          //             cellStyle: {
+          //               textAlign: "center",
+          //             },
+          //           },
+          //           {
+          //             title: "Created At",
+          //             searchable: true,
+          //             field: "timestamp",
+          //             render: ({ timestamp }) =>
+          //               moment(timestamp).format("Do MMM YYYY hh:mm A"),
+          //             customSort: (a, b) =>
+          //               new Date(b?.timestamp) - new Date(a?.timestamp),
+          //             filtering: false,
+          //             editable: "never",
+          //             headerStyle: {
+          //               textAlign: "center",
+          //             },
+          //             cellStyle: {
+          //               textAlign: "center",
+          //             },
+          //           },
+          //         ]}
+          //         options={{
+          //           detailPanelColumnAlignment: "right",
+          //           exportAllData: true,
+          //           selection: false,
+          //           exportMenu: [
+          //             {
+          //               label: "Export Users Data In CSV",
+          //               exportFunc: (cols, data) =>
+          //                 ExportCsv(
+          //                   cols,
+          //                   data,
+          //                   `${rowData?.displayName} Participated Fairs`
+          //                 ),
+          //             },
+          //             {
+          //               label: "Export Users Data In PDF",
+          //               exportFunc: (cols, data) =>
+          //                 ExportPdf(
+          //                   cols,
+          //                   data,
+          //                   `${rowData?.displayName} Participated Fairs`
+          //                 ),
+          //             },
+          //           ],
+          //           // selection: true,
+          //           actionsColumnIndex: -1,
+          //         }}
+          //         style={{
+          //           boxShadow: "#6a1b9a3d 0px 8px 16px 0px",
+          //           borderRadius: "8px",
+          //         }}
+          //       />
+          //     </div>
+          //   ),
+          // },
         ]}
         options={{
           detailPanelColumnAlignment: "right",
@@ -172,7 +351,10 @@ const Schools = () => {
               label: "Export Users Data In CSV",
               exportFunc: (cols, data) => ExportCsv(cols, data),
             },
-          
+            // {
+            //   label: "Export Users Data In PDF",
+            //   exportFunc: (cols, data) => ExportPdf(cols, data),
+            // },
           ],
           // selection: true,
           actionsColumnIndex: -1,
@@ -183,20 +365,8 @@ const Schools = () => {
         }}
         editable={{
           onRowDelete: async (oldData) => {
-            const respond = await fetch(BASE_URL + "/delete-api", {
-              method: "POST",
-              body: JSON.stringify({ uidS: [oldData.uid] }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-            const res = await respond.json();
-
-            if (respond.status === 200) {
-              snackBarOpen("University Deleted Successfully", "success");
-            } else {
-              snackBarOpen(res?.error?.message, "error");
-            }
+            await database.ref(`Users/${oldData.id}`).remove();
+            Swal.fire("Success!", "School Deleted Successfully", "success");
           },
         }}
         actions={[

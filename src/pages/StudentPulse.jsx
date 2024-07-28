@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaMale, FaFemale } from 'react-icons/fa';
-import { database } from 'configs'; // Adjust import path as per your project structure
+import { database } from 'configs'; 
 import MaterialTable from '@material-table/core';
 import {
   Dialog,
@@ -85,8 +85,7 @@ const StudentFair = () => {
           }
         }
   
-        countries.sort((a, b) => a.studentId.localeCompare(b.studentId)); // ترتيب البيانات من الأقدم إلى الأحدث
-  
+        countries.sort((a, b) => a.studentId.localeCompare(b.studentId)); 
         countries = countries.map((country, index) => ({ ...country, sl: index + 1 }));
   
         setStudentData({
@@ -218,11 +217,11 @@ const StudentFair = () => {
   data={studentData.countries}
   title="All Students Data"
   columns={[
-    { title: '#', field: 'sl', defaultSort: 'asc' }, // ترتيب تصاعدي افتراضي
+    { title: '#', field: 'sl', defaultSort: 'asc' }, 
     { title: 'Gender', field: 'gender' },
     { title: 'Nationality', field: 'nationality' },
-    { title: 'Country', field: 'country' },         // عمود جديد: الدولة
-    { title: 'City', field: 'city' },               // عمود جديد: المدينة
+    { title: 'Country', field: 'country' },         
+    { title: 'City', field: 'city' },             
     { title: 'Area Of Interest', field: 'areaOfInterest' },
     { title: 'Country Of Area Interest', field: 'nationalityOfAreaInterest' },
   ]}
@@ -234,9 +233,9 @@ const StudentFair = () => {
     pageSizeOptions: [10, 20, 50],
     customSort: (a, b, field) => {
       if (field === 'sl') {
-        return a.sl - b.sl; // ترتيب تصاعدي (من الأقدم إلى الأحدث)
+        return a.sl - b.sl; 
       }
-      return 0; // الحفاظ على الترتيب الافتراضي للأعمدة الأخرى
+      return 0; 
     },
   }}
 />

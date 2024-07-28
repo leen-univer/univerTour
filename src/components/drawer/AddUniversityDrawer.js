@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-
+import firebase from "firebase/app";
+import "firebase/auth";
 import { Fragment } from "react";
 import { RegisterSchema } from "schemas";
 import { Done } from "@mui/icons-material";
@@ -20,6 +21,8 @@ import { Done } from "@mui/icons-material";
 import { useAppContext } from "contexts";
 import { LoadingButton } from "@mui/lab";
 import { BASE_URL } from "configs/api";
+import { database } from "configs";
+import Swal from "sweetalert2";
 
 const AddUniversityDrawer = ({ open, setOpenAddUniversityDrawer }) => {
   const { snackBarOpen } = useAppContext();
@@ -36,31 +39,45 @@ const AddUniversityDrawer = ({ open, setOpenAddUniversityDrawer }) => {
     },
     {}
   );
-  const handleSend = async (values, submitProps) => {
+
+  const handleSubmit = async (values, submitProps) => {
+    console.log(values);
     try {
-      const respond = await fetch(BASE_URL + "/post-api", {
-        method: "POST",
-        body: JSON.stringify({ ...values }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const { email, password, ...rest } = values;
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      const uid = user.uid;
+
+      const formData = {
+        ...values,
+        timestamp: new Date().toString(),
+      };
+      console.log(formData);
+
+      await firebase.database().ref(`Users/${uid}`).set(formData);
+
+      Swal.fire({
+        title: "University / School Added Successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
       });
-      const res = await respond.json();
-      // console.log(res);
-      // console.log(values);
-      if (respond.status === 200) {
-        snackBarOpen("University Data added Successfully", "success");
-      } else {
-        snackBarOpen(res?.error?.message, "error");
-      }
+
       submitProps.resetForm();
     } catch (error) {
-      snackBarOpen(error.message, "error");
       console.log(error);
-    } finally {
       submitProps.setSubmitting(false);
+
+      Swal.fire({
+        title: "Error!",
+        text: error.message,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   };
+
   return (
     <>
       <Drawer
@@ -82,14 +99,14 @@ const AddUniversityDrawer = ({ open, setOpenAddUniversityDrawer }) => {
               marginBottom: "2vh",
             }}
           >
-            Add New University
+            Add New University / School
           </Typography>
 
           <Formik
             enableReinitialize
             initialValues={initialValues}
             validationSchema={Yup.object(validationSchema)}
-            onSubmit={handleSend}
+            onSubmit={handleSubmit}
           >
             {(formik) => (
               <Form>

@@ -367,24 +367,25 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                 ...values,
                 image: "",
                 fairType: "SCHOOL VISIT",
-
                 country: values?.country,
-                cityName: cities?.find((city) => city?.id === values?.city)
-                  .cityName,
+                cityName: cities?.find((city) => city?.id === values?.city)?.cityName || "",
                 countryName: countries?.find(
                   (country) => country?.id === values?.country
-                ).countryName,
-                createdBy: user?.role,
+                )?.countryName || "",
+                createdBy: user?.role || "",
                 timestamp: new Date().toString(),
-                createdSchoolName: user?.displayName,
-                creatorId: auth?.currentUser?.uid,
+                createdSchoolName: user?.displayName || "",
+                creatorId: auth?.currentUser?.uid || "",
                 regLink:
                   user?.role === "school"
                     ? schoolRegLink
                     : `${window?.location?.origin}/admin/${values?.displayName}/${user?.uid}/${fairId}`,
-                    fairId: open?.id ? open?.id : new Date().getTime(),
-                    MajorUrl: `http://127.0.0.1:7008/StudentMajorReg/${values.displayName}/${fairId}/${values.city}/${values.country}`,
-                  });
+                fairId: open?.id ? open?.id : new Date().getTime(),
+                MajorUrl: `http://127.0.0.1:7008/StudentMajorReg/${values?.displayName}/${fairId}/${cities?.find((city) => city?.id === values?.city)?.cityName || ""}/${countries?.find((country) => country?.id === values?.country)?.countryName || ""}`,
+              });
+              
+              
+              
           }
         }
 
