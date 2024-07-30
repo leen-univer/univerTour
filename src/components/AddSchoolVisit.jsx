@@ -352,7 +352,7 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                     ? schoolRegLink
                     : `https://www.univertours.com/admin/${values?.displayName}/${user?.uid}/${fairId}`,
                     fairId: open?.id ? open?.id : new Date().getTime(),
-                    MajorUrl: `http://127.0.0.1:7008/StudentMajorReg/${values.displayName}/${fairId}/${values.cityName}/${values.countryName}`,
+                    MajorUrl: `https://www.univertours.com/StudentMajorReg/${values.displayName}/${fairId}/${values.cityName}/${values.countryName}`,
 
               });
           } else {
@@ -381,7 +381,7 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                     ? schoolRegLink
                     : `${window?.location?.origin}/admin/${values?.displayName}/${user?.uid}/${fairId}`,
                 fairId: open?.id ? open?.id : new Date().getTime(),
-                MajorUrl: `http://127.0.0.1:7008/StudentMajorReg/${values?.displayName}/${fairId}/${cities?.find((city) => city?.id === values?.city)?.cityName || ""}/${countries?.find((country) => country?.id === values?.country)?.countryName || ""}`,
+                MajorUrl: `https://www.univertours.com/StudentMajorReg/${values?.displayName}/${fairId}/${cities?.find((city) => city?.id === values?.city)?.cityName || ""}/${countries?.find((country) => country?.id === values?.country)?.countryName || ""}`,
               });
               
               
