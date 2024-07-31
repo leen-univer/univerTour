@@ -19,3 +19,7 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+
+  .css-1vraruj{
+    max-width: 828px !important;
+  }

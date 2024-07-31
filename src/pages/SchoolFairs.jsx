@@ -343,7 +343,7 @@ const SchoolFairs = () => {
                   <Card
                     sx={{
                       minWidth: 600,
-                      maxWidth: 650,
+											maxWidth: 850,
                       transition: "0.3s",
                       margin: "auto",
                       borderRadius: "10px",
