@@ -350,13 +350,12 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                 regLink:
                   user?.role === "school"
                     ? schoolRegLink
-                    : `https://www.univertours.com/admin/${values?.displayName}/${user?.uid}/${fairId}`,
+                    : `https://univertours.com/admin/${values?.displayName}/${user?.uid}/${fairId}`,
                     fairId: open?.id ? open?.id : new Date().getTime(),
-                    MajorUrl: `univertours.com/StudentMajorReg/${values.displayName}/${fairId}/${values.cityName}/${values.countryName}`,
+                    MajorUrl: `https://univertours.com/StudentMajorReg/${values.displayName}/${fairId}/${values.cityName}/${values.countryName}`,
 
               });
           } else {
-            console.log("Ddd");
             await database
               .ref(
                 user?.role === "school"
