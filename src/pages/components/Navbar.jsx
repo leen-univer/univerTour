@@ -38,26 +38,7 @@ const Navbar = () => {
 					<TemporaryDrawer />
 				</div>
 				<div className="nav-container">
-					<div className="example">
-						<Autocomplete
-							fullWidth
-							multiple={false}
-							limitTags={1}
-							id="cities-autocomplete"
-							className="example"
-							options={citiesArray || []}
-							getOptionLabel={(option) => option?.cityName || ""}
-							onChange={handleCitySelection}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Cities"
-									placeholder="Select cities"
-									className="example"
-								/>
-							)}
-						/>
-					</div>
+			
 					<div className="left-nav display">
 						<Link className="nav-link change_new_clr" href="">
 							Home
