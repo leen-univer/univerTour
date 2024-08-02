@@ -10,7 +10,6 @@ import {
 import moment from "moment";
 
 const ViewRegisterStudentDialog = ({ rowData, handleClose }) => {
-  console.log("Ffffffffffffffolfkofof",rowData);
   return (
     <Dialog
       onClose={handleClose}

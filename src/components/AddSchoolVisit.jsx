@@ -233,7 +233,7 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
       // }
       const timestamp = new Date();
       const schoolId = timestamp.getTime();
-      const schoolRegLink = `${window?.location?.origin}/${user?.displayName}/${values?.displayName}/${user?.uid}/${schoolId}`;
+      const schoolRegLink = `https://univertours.com/${user?.displayName}/${values?.displayName}/${user?.uid}/${schoolId}`;
       const fairId = open?.id ? open?.id : new Date().getTime();
 
       try {
@@ -287,7 +287,7 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                 regLink:
                   user?.role === "school"
                     ? schoolRegLink
-                    : `${window?.location?.origin}/admin/${values?.displayName}/${user?.uid}/${fairId}`,
+                    : `https://univertours.com/admin/${values?.displayName}/${user?.uid}/${fairId}`,
                     fairId: open?.id ? open?.id : new Date().getTime(),
               });
           } else {
@@ -316,7 +316,7 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                 regLink:
                   user?.role === "school"
                     ? schoolRegLink
-                    : `${window?.location?.origin}/admin/${values?.displayName}/${user?.uid}/${fairId}`,
+                    : `https://univertours.com/admin/${values?.displayName}/${user?.uid}/${fairId}`,
                     fairId: open?.id ? open?.id : new Date().getTime(),
 
               });
@@ -378,7 +378,7 @@ const AddSchoolVisit = ({ open, setOpenDrawer }) => {
                 regLink:
                   user?.role === "school"
                     ? schoolRegLink
-                    : `${window?.location?.origin}/admin/${values?.displayName}/${user?.uid}/${fairId}`,
+                    : `https://univertours.com/admin/${values?.displayName}/${user?.uid}/${fairId}`,
                 fairId: open?.id ? open?.id : new Date().getTime(),
                 MajorUrl: `https://univertours.com/StudentMajorReg/${values?.displayName}/${fairId}/${cities?.find((city) => city?.id === values?.city)?.cityName || ""}/${countries?.find((country) => country?.id === values?.country)?.countryName || ""}`,
               });

@@ -46,17 +46,17 @@ const Login = () => {
 
   const handleLogin = async (values, submitProps) => {
     try {
-      if (user.isAccepted === false) return alert("Please Register Yourself");
+      if (user && user.isAccepted === false) {
+        return alert("Please Register Yourself");
+      }
       await login(values?.email, values.password);
       navigate("/dashboard");
-      // navigate("/login");
     } catch (error) {
       console.log(error);
       submitProps.setSubmitting(false);
-      // navigate("/login");
-
     }
   };
+  
   return (
     <Grid container>
       <Grid item xs={12} sm={12} md={12} lg={5} sx={{ p: 2 }}>

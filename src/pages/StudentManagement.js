@@ -425,7 +425,7 @@ const CloneEvent = ({ rowData }) => {
               creatorId: user?.uid,
               link: rowData?.link || "",
               notes: rowData?.notes || "",
-              regLink: `https://univertours.com/admin/${rowData?.displayName}/${user?.uid}/${fairId}`,
+              regLink:  `https://univertours.com/admin/${rowData?.displayName}/${user?.uid}/${fairId}`,
               MajorUrl: `https://univertours.com/StudentMajorReg/${rowData.displayName}/${fairId}/${rowData.cityName}/${rowData.countryName}`,
             });
 

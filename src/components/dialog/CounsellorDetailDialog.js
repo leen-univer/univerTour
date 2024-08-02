@@ -1,34 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { database } from "configs"; // تأكد من أنك استوردت إعدادات Firebase بشكل صحيح
+import { database } from "configs"; 
 
-const CounsellorDetailDialog = ({ rowData, handleClose }) => {
-    const [counsellorDetails, setCounsellorDetails] = useState(null);
+const CounsellorDetailDialog = ({ handleClose, rowData }) => {
+    const [schoolCounsellors, setSchoolCounsellors] = useState([]);
 
     useEffect(() => {
-        const fetchCounsellorDetails = async () => {
-            if (rowData) {
-                try {
-                    const snapshot = await database.ref(`/Users/${rowData.id}`).get();
-                    if (snapshot.exists()) {
-                        setCounsellorDetails(snapshot.val());
-                    } else {
-                        console.log("No data available");
-                    }
-                } catch (error) {
-                    console.error("Error fetching data:", error);
+        const fetchSchoolCounsellors = async () => {
+            try {
+                const snapshot = await database.ref('/Users').get();
+                if (snapshot.exists()) {
+                    const users = snapshot.val();
+                    const filteredUsers = Object.entries(users)
+                        .filter(([, userData]) => userData.role === 'school' && userData.displayName === rowData.displayName)
+                        .map(([key, userData]) => ({ uid: key, ...userData }));
+
+                    setSchoolCounsellors(filteredUsers);
+                    console.log("Filtered school users:", filteredUsers); 
+                } else {
+                    console.log("No data available in /Users");
                 }
+            } catch (error) {
+                console.error("Error fetching data:", error);
             }
         };
 
-        fetchCounsellorDetails();
-    }, [rowData]);
+        fetchSchoolCounsellors();
+    }, [rowData.displayName]);
 
-    if (!counsellorDetails) return null;
+    const handleDialogClose = () => {
+        handleClose();
+    };
 
     return (
         <Dialog
-            onClose={handleClose}
+            onClose={handleDialogClose}
             aria-labelledby="customized-dialog-title"
             open={Boolean(rowData)}
             maxWidth="sm"
@@ -36,38 +42,44 @@ const CounsellorDetailDialog = ({ rowData, handleClose }) => {
         >
             <DialogTitle id="customized-dialog-title">
                 <p className="text-center text-xl font-bold text-theme tracking-wide">
-                    VIEW COUNSELLOERييييي DETAILS
+                    VIEW SCHOOL COUNSELLORS
                 </p>
             </DialogTitle>
             <hr />
-            <DialogContent className="app-scrollbar" sx={{ p: 2 }}>
+            <DialogContent className="app-scrollbar" sx={{ p: 2 }} onClick={(e) => e.stopPropagation()}>
                 <div className="md:w-full md:px-4 px-2 tracking-wide">
-                    <div className="flex flex-col gap-2 bg-blue-50 p-3 rounded-md">
-                        <p className="flex gap-2">
-                            <span>Name:</span>
-                            <span className="!text-theme font-semibold">
-                                {counsellorDetails.name || 'N/A'}
-                            </span>
-                        </p>
-                        <p className="flex gap-2">
-                            <span>Email:</span>
-                            <span className="!text-theme font-semibold">
-                                {counsellorDetails.email || 'N/A'}
-                            </span>
-                        </p>
-                        <p className="flex gap-2">
-                            <span>Contact Number:</span>
-                            <span className="!text-theme font-semibold">
-                                {counsellorDetails.contactNumber || 'N/A'}
-                            </span>
-                        </p>
-                        <p className="flex gap-2">
-                            <span>Experience:</span>
-                            <span className="!text-theme font-semibold">
-                                {counsellorDetails.experience || 'N/A'}
-                            </span>
-                        </p>
-                    </div>
+                    {schoolCounsellors.length > 0 ? (
+                        schoolCounsellors.map((counsellor) => (
+                            <div key={counsellor.uid} className="flex flex-col gap-2 bg-blue-50 p-3 rounded-md mb-4">
+                                <p className="flex gap-2">
+                                    <span>Name:</span>
+                                    <span className="!text-theme font-semibold">
+                                        {counsellor.contactName || 'N/A'}
+                                    </span>
+                                </p>
+                                <p className="flex gap-2">
+                                    <span>Email:</span>
+                                    <span className="!text-theme font-semibold">
+                                        {counsellor.email || 'N/A'}
+                                    </span>
+                                </p>
+                                <p className="flex gap-2">
+                                    <span>Contact Number:</span>
+                                    <span className="!text-theme font-semibold">
+                                        {counsellor.phoneNumber || 'N/A'}
+                                    </span>
+                                </p>
+                                <p className="flex gap-2">
+                                    <span>Country:</span>
+                                    <span className="!text-theme font-semibold">
+                                        {counsellor.country || 'N/A'}
+                                    </span>
+                                </p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No school counsellors found.</p>
+                    )}
                 </div>
             </DialogContent>
         </Dialog>

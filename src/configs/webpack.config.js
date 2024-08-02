@@ -1,6 +1,5 @@
-/** next.config.js - with Webpack v5.x */
+// next.config.js
 module.exports = {
-  webpack5: true,
   webpack: (config) => {
     config.resolve.fallback = {
       fs: false,

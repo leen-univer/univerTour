@@ -43,16 +43,13 @@ const ViewItineraryDialog = ({ rowData, handleClose }) => {
               <Typography variant="h6" gutterBottom align="left">
                 Registration Link:
                 <a
-                  href={rowData?.regLink}
-                  style={{
-                    textDecoration: "none",
-                    fontSize: "1rem",
-                  }}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {rowData?.regLink}
-                </a>
+                    href={rowData?.regLink}
+                    style={{ textDecoration: "none", fontSize: "1rem" }}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {rowData?.regLink}
+                  </a>
               </Typography>
               <Typography variant="h6" gutterBottom align="left">
                 Student Major Link:{" "}
