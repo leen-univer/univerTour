@@ -69,7 +69,18 @@ const Leads = () => {
   const [counsellorDetail, setCounsellorDetails] = useState(false);
   const [allData, setAllData] = useState();
   const [openCityDetails, setOpenCityDetails] = useState(false);
-
+  const [isNoteDialogOpen, setIsNoteDialogOpen] = useState(false);
+  const [currentRowData, setCurrentRowData] = useState(null);
+  
+  const handleOpenNoteDialog = (rowData) => {
+      setCurrentRowData(rowData);
+      setIsNoteDialogOpen(true);
+  };
+  
+  const handleCloseNoteDialog = () => {
+    setIsNoteDialogOpen(false);
+    setCurrentRowData(null);
+};
 
   const [addReview, setAddReview] = useState(false);
   const [isSelect, setIsSelect] = useState()
@@ -417,17 +428,23 @@ const Leads = () => {
     <section className="">
       <Popup />
       <ViewItineraryDialog
-        rowData={openDialog}
-        handleClose={() => setOpenDialog(false)}
-      />
+    rowData={openDialog} // تأكد من أن هذا يحتوي على بيانات يمكن عرضها
+    handleClose={() => setOpenDialog(false)}
+/>
+
       <CounsellorDetailDialog
         rowData={counsellorDetail}
         handleClose={() => setCounsellorDetails(false)}
       />
-      <UniNoteDailog
-        handleClose={() => setAddReview(false)}
-        addReview={addReview}
-      />
+   {currentRowData && isNoteDialogOpen && (
+    <UniNoteDailog 
+        handleClose={handleCloseNoteDialog}
+        addReview={currentRowData.id}
+        rowData={currentRowData}
+        open={isNoteDialogOpen} 
+    />
+)}
+
       <ViewRegisterStudentDialog
         rowData={openStudentS}
         handleClose={() => setOpenStudents(false)}
@@ -1164,7 +1181,7 @@ const Leads = () => {
                           ) : null}
                           <div className=" !h-24">
                             <Tooltip title="Add Review">
-                              <IconButton onClick={() => setAddReview(true)}>
+                              <IconButton onClick={() => handleOpenNoteDialog(rowData)}>
                                 <GradingIcon />
                               </IconButton>
                             </Tooltip>
@@ -2375,7 +2392,7 @@ const Leads = () => {
                               ) : null}
                               <div className=" !h-24">
                                 <Tooltip title="Add Review">
-                                  <IconButton onClick={() => setAddReview(true)}>
+                                  <IconButton onClick={() => handleOpenNoteDialog(rowData)}>
                                     <GradingIcon />
                                   </IconButton>
                                 </Tooltip>

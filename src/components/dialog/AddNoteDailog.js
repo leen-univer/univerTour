@@ -37,14 +37,13 @@ const AddNoteDailog = ({ handleClose, addReview, onSubmit }) => {
     >
       <div>
         <Formik
-          // enableReinitialize
           initialValues={initialValues}
           validationSchema={Yup.object().shape({
             review: Yup.string().required("Note is Required"),
           })}
           onSubmit={(values, { setSubmitting }) => {
-            onSubmit(values); // Submit form values to the parent component
-            handleClose(); // Close the dialog after submitting the form
+            onSubmit(values); 
+            handleClose(); 
             setSubmitting(false);
           }}
         >
